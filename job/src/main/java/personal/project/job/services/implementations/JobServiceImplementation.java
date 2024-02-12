@@ -1,13 +1,10 @@
 package personal.project.job.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 import personal.project.job.clients.CompanyClient;
 import personal.project.job.clients.ReviewClient;
 import personal.project.job.exceptions.ResourceUnavailableException;
