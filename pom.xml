@@ -18,6 +18,7 @@
         <module>company</module>
         <module>job</module>
         <module>review</module>
+        <module>service-registry</module>
     </modules>
 
     <properties>
