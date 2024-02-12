@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 import personal.project.review.clients.CompanyClient;
 import personal.project.review.exceptions.ResourceUnavailableException;
 import personal.project.review.mapper.CompanyToReviewMapper;
