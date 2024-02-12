@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import personal.project.company.exceptions.ResourceUnavailableException;
 import personal.project.company.models.Company;
 import personal.project.company.repositories.CompanyRepository;
 import personal.project.company.services.CompanyService;
-import personal.project.company.exceptions.ResourceUnavailableException;
 
 import java.util.List;
 import java.util.Optional;

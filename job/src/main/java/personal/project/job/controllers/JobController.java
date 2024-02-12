@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import personal.project.job.exceptions.ResourceUnavailableException;
 import personal.project.job.models.Job;
+import personal.project.job.models.dtos.JobDTO;
 import personal.project.job.services.JobService;
 
 import java.util.List;
@@ -21,23 +22,23 @@ public class JobController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Job>> findAllJobsRequests() throws ResourceUnavailableException {
+    public ResponseEntity<List<JobDTO>> findAllJobsRequests() throws ResourceUnavailableException {
         return jobService.findAllJobsRequests();
     }
 
     @GetMapping("/{jobId}")
-    public ResponseEntity<Job> findSingleJobRequest(@PathVariable Long jobId) throws ResourceUnavailableException {
+    public ResponseEntity<JobDTO> findSingleJobRequest(@PathVariable Long jobId) throws ResourceUnavailableException {
         return jobService.findSingleJobRequest(jobId);
     }
 
     @PostMapping
-    public ResponseEntity<Job> createJobRequest(@RequestBody Job job) throws ResourceUnavailableException {
+    public ResponseEntity<JobDTO> createJobRequest(@RequestBody Job job) throws ResourceUnavailableException {
         return jobService.createJobRequest(job);
     }
 
     @PutMapping("/{jobId}")
-    public ResponseEntity<Job> replaceJobRequest(@PathVariable Long jobId,
-                                                 @RequestBody Job job) throws ResourceUnavailableException {
+    public ResponseEntity<JobDTO> replaceJobRequest(@PathVariable Long jobId,
+                                                    @RequestBody Job job) throws ResourceUnavailableException {
         return jobService.replaceJobRequest(jobId, job);
     }
 

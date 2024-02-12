@@ -3,9 +3,9 @@ package personal.project.company.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import personal.project.company.exceptions.ResourceUnavailableException;
 import personal.project.company.models.Company;
 import personal.project.company.services.CompanyService;
-import personal.project.company.exceptions.ResourceUnavailableException;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class CompanyController {
 
     @PutMapping("/{companyId}")
     public ResponseEntity<Company> replaceCompany(@PathVariable Long companyId,
-                                                     @RequestBody Company company) throws ResourceUnavailableException {
+                                                  @RequestBody Company company) throws ResourceUnavailableException {
         return companyService.replaceCompany(companyId, company);
     }
 
