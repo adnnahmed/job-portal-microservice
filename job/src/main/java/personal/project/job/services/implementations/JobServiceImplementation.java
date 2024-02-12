@@ -21,10 +21,12 @@ import java.util.Optional;
 public class JobServiceImplementation implements JobService {
 
     private final JobRepository jobRepository;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public JobServiceImplementation(JobRepository jobRepository) {
+    public JobServiceImplementation(JobRepository jobRepository, RestTemplate restTemplate) {
         this.jobRepository = jobRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -75,9 +77,8 @@ public class JobServiceImplementation implements JobService {
     }
 
     private Company getCompany(Long companyId) throws ResourceUnavailableException {
-        RestTemplate restTemplate = new RestTemplate();
         try {
-            return restTemplate.getForObject("http://localhost:8081/companies/" + companyId, Company.class);
+            return restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/" + companyId, Company.class);
         } catch (RestClientException e) {
             throw new ResourceUnavailableException("There seems to some problem with the Company service.");
         }

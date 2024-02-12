@@ -19,7 +19,7 @@ target/
 *.iml
 *.ipr
 /.mvn/
-/src/test/java/personal/project/company/CompanyApplicationTests.java
+/src/test/
 
 ### NetBeans ###
 /nbproject/private/

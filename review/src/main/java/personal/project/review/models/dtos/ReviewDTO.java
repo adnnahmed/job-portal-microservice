@@ -9,6 +9,6 @@ import personal.project.review.models.external.Company;
 @Setter
 public class ReviewDTO {
 
-    private Company company;
     private Review review;
+    private Company company;
 }

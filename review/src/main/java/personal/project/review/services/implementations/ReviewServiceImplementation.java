@@ -21,10 +21,12 @@ import java.util.Optional;
 public class ReviewServiceImplementation implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public ReviewServiceImplementation(ReviewRepository reviewRepository) {
+    public ReviewServiceImplementation(ReviewRepository reviewRepository, RestTemplate restTemplate) {
         this.reviewRepository = reviewRepository;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -86,9 +88,8 @@ public class ReviewServiceImplementation implements ReviewService {
     }
 
     private Company getCompany(Long companyId) throws ResourceUnavailableException {
-        RestTemplate restTemplate = new RestTemplate();
         try {
-            return restTemplate.getForObject("http://localhost:8081/companies/" + companyId, Company.class);
+            return restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/" + companyId, Company.class);
         } catch (RestClientException e) {
             throw new ResourceUnavailableException("There seems to some problem with the Company service.");
         }
