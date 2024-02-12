@@ -9,6 +9,9 @@ import personal.project.review.models.external.Company;
 @Setter
 public class ReviewDTO {
 
-    private Review review;
+    private Long id;
+    private String title;
+    private String description;
+    private double rating;
     private Company company;
 }

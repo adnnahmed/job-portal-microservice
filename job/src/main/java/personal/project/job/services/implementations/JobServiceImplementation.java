@@ -1,15 +1,19 @@
 package personal.project.job.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import personal.project.job.exceptions.ResourceUnavailableException;
+import personal.project.job.mapper.CompanyToJobMapper;
 import personal.project.job.models.Job;
 import personal.project.job.models.dtos.JobDTO;
 import personal.project.job.models.external.Company;
+import personal.project.job.models.external.Review;
 import personal.project.job.repositories.JobRepository;
 import personal.project.job.services.JobService;
 
@@ -51,8 +55,7 @@ public class JobServiceImplementation implements JobService {
 
     @Override
     public ResponseEntity<JobDTO> createJobRequest(Job job) throws ResourceUnavailableException {
-        JobDTO jobDTO = getJobDTO(job);
-        jobRepository.save(job);
+        JobDTO jobDTO = getJobDTO(jobRepository.save(job));
         return new ResponseEntity<>(jobDTO, HttpStatus.CREATED);
     }
 
@@ -60,8 +63,7 @@ public class JobServiceImplementation implements JobService {
     public ResponseEntity<JobDTO> replaceJobRequest(Long jobId, Job job) throws ResourceUnavailableException {
         if (jobRepository.existsById(jobId)) {
             job.setId(jobId);
-            JobDTO jobDTO = getJobDTO(job);
-            jobRepository.save(job);
+            JobDTO jobDTO = getJobDTO(jobRepository.save(job));
             return ResponseEntity.ok(jobDTO);
         }
         throw new ResourceUnavailableException("Job request with ID " + jobId + " is unavailable.");
@@ -84,10 +86,21 @@ public class JobServiceImplementation implements JobService {
         }
     }
 
+    private List<Review> getReviews(Long companyId) throws ResourceUnavailableException {
+        try {
+            return restTemplate.exchange(
+                    "http://REVIEW-SERVICE:8083/reviews?companyId=" + companyId,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<Review>>() {
+                    }
+            ).getBody();
+        } catch (RestClientException e) {
+            throw new ResourceUnavailableException("There seems to some problem with the Review service.");
+        }
+    }
+
     private JobDTO getJobDTO(Job job) throws ResourceUnavailableException {
-        JobDTO jobDTO = new JobDTO();
-        jobDTO.setJob(job);
-        jobDTO.setCompany(getCompany(job.getCompanyId()));
-        return jobDTO;
+        return CompanyToJobMapper.mapToJobDTO(job, getCompany(job.getCompanyId()), getReviews(job.getCompanyId()));
     }
 }
