@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import personal.project.job.clients.CompanyClient;
+import personal.project.job.clients.ReviewClient;
 import personal.project.job.exceptions.ResourceUnavailableException;
 import personal.project.job.mapper.CompanyToJobMapper;
 import personal.project.job.models.Job;
@@ -25,12 +27,14 @@ import java.util.Optional;
 public class JobServiceImplementation implements JobService {
 
     private final JobRepository jobRepository;
-    private final RestTemplate restTemplate;
+    private final CompanyClient companyClient;
+    private final ReviewClient reviewClient;
 
     @Autowired
-    public JobServiceImplementation(JobRepository jobRepository, RestTemplate restTemplate) {
+    public JobServiceImplementation(JobRepository jobRepository, CompanyClient companyClient, ReviewClient reviewClient) {
         this.jobRepository = jobRepository;
-        this.restTemplate = restTemplate;
+        this.companyClient = companyClient;
+        this.reviewClient = reviewClient;
     }
 
     @Override
@@ -80,7 +84,7 @@ public class JobServiceImplementation implements JobService {
 
     private Company getCompany(Long companyId) throws ResourceUnavailableException {
         try {
-            return restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/" + companyId, Company.class);
+            return companyClient.getCompany(companyId);
         } catch (RestClientException e) {
             throw new ResourceUnavailableException("There seems to some problem with the Company service.");
         }
@@ -88,13 +92,7 @@ public class JobServiceImplementation implements JobService {
 
     private List<Review> getReviews(Long companyId) throws ResourceUnavailableException {
         try {
-            return restTemplate.exchange(
-                    "http://REVIEW-SERVICE:8083/reviews?companyId=" + companyId,
-                    HttpMethod.GET,
-                    null,
-                    new ParameterizedTypeReference<List<Review>>() {
-                    }
-            ).getBody();
+            return reviewClient.getReviews(companyId);
         } catch (RestClientException e) {
             throw new ResourceUnavailableException("There seems to some problem with the Review service.");
         }

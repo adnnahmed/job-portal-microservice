@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import personal.project.review.clients.CompanyClient;
 import personal.project.review.exceptions.ResourceUnavailableException;
 import personal.project.review.mapper.CompanyToReviewMapper;
 import personal.project.review.models.Review;
@@ -22,12 +23,12 @@ import java.util.Optional;
 public class ReviewServiceImplementation implements ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final RestTemplate restTemplate;
+    private final CompanyClient companyClient;
 
     @Autowired
-    public ReviewServiceImplementation(ReviewRepository reviewRepository, RestTemplate restTemplate) {
+    public ReviewServiceImplementation(ReviewRepository reviewRepository, CompanyClient companyClient) {
         this.reviewRepository = reviewRepository;
-        this.restTemplate = restTemplate;
+        this.companyClient = companyClient;
     }
 
     @Override
@@ -88,7 +89,7 @@ public class ReviewServiceImplementation implements ReviewService {
 
     private Company getCompany(Long companyId) throws ResourceUnavailableException {
         try {
-            return restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/" + companyId, Company.class);
+            return companyClient.getCompany(companyId);
         } catch (RestClientException e) {
             throw new ResourceUnavailableException("There seems to some problem with the Company service.");
         }
