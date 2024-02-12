@@ -57,6 +57,7 @@ public class JobServiceImplementation implements JobService {
     @Override
     public ResponseEntity<JobDTO> replaceJobRequest(Long jobId, Job job) throws ResourceUnavailableException {
         if (jobRepository.existsById(jobId)) {
+            job.setId(jobId);
             JobDTO jobDTO = getJobDTO(job);
             jobRepository.save(job);
             return ResponseEntity.ok(jobDTO);
@@ -76,7 +77,7 @@ public class JobServiceImplementation implements JobService {
     private Company getCompany(Long companyId) throws ResourceUnavailableException {
         RestTemplate restTemplate = new RestTemplate();
         try {
-            return restTemplate.getForObject("localhost:8081/companies/" + companyId, Company.class);
+            return restTemplate.getForObject("http://localhost:8081/companies/" + companyId, Company.class);
         } catch (RestClientException e) {
             throw new ResourceUnavailableException("There seems to some problem with the Company service.");
         }

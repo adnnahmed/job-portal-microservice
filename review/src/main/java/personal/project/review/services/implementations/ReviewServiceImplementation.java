@@ -58,6 +58,7 @@ public class ReviewServiceImplementation implements ReviewService {
     @Override
     public ResponseEntity<ReviewDTO> replaceReview(Long reviewId, Review review) throws ResourceUnavailableException {
         if (reviewRepository.existsById(reviewId)) {
+            review.setId(reviewId);
             ReviewDTO reviewDTO = getReviewDTO(review);
             reviewRepository.save(review);
             return ResponseEntity.ok(reviewDTO);
@@ -87,7 +88,7 @@ public class ReviewServiceImplementation implements ReviewService {
     private Company getCompany(Long companyId) throws ResourceUnavailableException {
         RestTemplate restTemplate = new RestTemplate();
         try {
-            return restTemplate.getForObject("localhost:8081/companies/" + companyId, Company.class);
+            return restTemplate.getForObject("http://localhost:8081/companies/" + companyId, Company.class);
         } catch (RestClientException e) {
             throw new ResourceUnavailableException("There seems to some problem with the Company service.");
         }
