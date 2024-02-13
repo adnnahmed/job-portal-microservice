@@ -1,0 +1,762 @@
+{
+	"info": {
+		"_postman_id": "5e008791-569a-4466-a554-b7a393e028ad",
+		"name": "Job Portal Application",
+		"description": "All Endpoints for Job Portal Application.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19342382"
+	},
+	"item": [
+		{
+			"name": "JobRequests",
+			"item": [
+				{
+					"name": "getAllJobRequests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/jobs",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSingleJobRequest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/jobs/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"jobs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createJobRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Product Manager Needed\",\r\n    \"location\": \"Bangalore\",\r\n    \"description\": \"Job Description\",\r\n    \"minSalary\": \"3.5LPA\",\r\n    \"maxSalary\": \"9LPA\",\r\n    \"companyId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8082/jobs",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "replaceJobRequest",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Software Engineer Needed\",\r\n    \"location\": \"Mumbai\",\r\n    \"description\": \"Job Description\",\r\n    \"minSalary\": \"3.5LPA\",\r\n    \"maxSalary\": \"9LPA\",\r\n    \"companyId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8082/jobs/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"jobs",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteJobRequest",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/jobs/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"jobs",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CompanyRequests",
+			"item": [
+				{
+					"name": "getAllCompanies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/companies",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSingleCompany",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/companies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"companies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCompany",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Facebook Pvt. Ltd.\",\r\n    \"description\": \"Company Description\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/companies",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "replaceCompany",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Google Pvt. Ltd\",\r\n    \"description\": \"Company Description: Updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/companies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"companies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCompany",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/companies/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"companies",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ReviewRequests",
+			"item": [
+				{
+					"name": "getAllReviewsOfAllCompanies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/reviews/all-reviews",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"reviews",
+								"all-reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllReviewOfCompany",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/reviews?companyId=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"reviews"
+							],
+							"query": [
+								{
+									"key": "companyId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSingleReviewOfCompany",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/reviews/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"reviews",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createReviewOfCompany",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Review\",\r\n    \"description\": \"General Review\",\r\n    \"rating\": 4.5,\r\n    \"companyId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/reviews",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "replaceReiewOfCompany",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Review\",\r\n    \"description\": \"Description\",\r\n    \"rating\": 4.3,\r\n    \"companyId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8083/reviews/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"reviews",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteReviewOfCompany",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8083/reviews/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"reviews",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API Gateway",
+			"item": [
+				{
+					"name": "JobRequests",
+					"item": [
+						{
+							"name": "getAllJobRequests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/jobs",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"jobs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getSingleJobRequest",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/jobs/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"jobs",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createJobRequest",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Product Manager Needed\",\r\n    \"location\": \"Bangalore\",\r\n    \"description\": \"Job Description\",\r\n    \"minSalary\": \"3.5LPA\",\r\n    \"maxSalary\": \"9LPA\",\r\n    \"companyId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8084/jobs",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"jobs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "replaceJobRequest",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Software Engineer Needed\",\r\n    \"location\": \"Mumbai\",\r\n    \"description\": \"Job Description\",\r\n    \"minSalary\": \"3.5LPA\",\r\n    \"maxSalary\": \"9LPA\",\r\n    \"companyId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8084/jobs/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"jobs",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteJobRequest",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/jobs/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"jobs",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CompanyRequests",
+					"item": [
+						{
+							"name": "getAllCompanies",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/companies",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getSingleCompany",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/companies/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"companies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createCompany",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Facebook Pvt. Ltd.\",\r\n    \"description\": \"Company Description\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8084/companies",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "replaceCompany",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Google Pvt. Ltd\",\r\n    \"description\": \"Company Description: Updated\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8084/companies/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"companies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteCompany",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/companies/4",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"companies",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ReviewRequests",
+					"item": [
+						{
+							"name": "getAllReviewsOfAllCompanies",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/reviews/all-reviews",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"reviews",
+										"all-reviews"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllReviewOfCompany",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/reviews?companyId=2",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"reviews"
+									],
+									"query": [
+										{
+											"key": "companyId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getSingleReviewOfCompany",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/reviews/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"reviews",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createReviewOfCompany",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Review\",\r\n    \"description\": \"General Review\",\r\n    \"rating\": 4.5,\r\n    \"companyId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8084/reviews",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"reviews"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "replaceReiewOfCompany",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Review\",\r\n    \"description\": \"Description\",\r\n    \"rating\": 4.3,\r\n    \"companyId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8084/reviews/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"reviews",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteReviewOfCompany",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8084/reviews/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8084",
+									"path": [
+										"reviews",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

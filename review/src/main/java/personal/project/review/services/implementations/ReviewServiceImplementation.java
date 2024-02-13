@@ -1,5 +1,6 @@
 package personal.project.review.services.implementations;
 
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,8 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     public ResponseEntity<ReviewDTO> createReview(Review review) throws ResourceUnavailableException {
-        ReviewDTO reviewDTO = getReviewDTO(reviewRepository.save(review));
+        ReviewDTO reviewDTO = getReviewDTO(review);
+        reviewRepository.save(review);
         return new ResponseEntity<>(reviewDTO, HttpStatus.CREATED);
     }
 
@@ -61,7 +63,8 @@ public class ReviewServiceImplementation implements ReviewService {
     public ResponseEntity<ReviewDTO> replaceReview(Long reviewId, Review review) throws ResourceUnavailableException {
         if (reviewRepository.existsById(reviewId)) {
             review.setId(reviewId);
-            ReviewDTO reviewDTO = getReviewDTO(reviewRepository.save(review));
+            ReviewDTO reviewDTO = getReviewDTO(review);
+            reviewRepository.save(review);
             return ResponseEntity.ok(reviewDTO);
         }
         throw new ResourceUnavailableException("Review with ID " + reviewId + " is unavailable.");
@@ -89,8 +92,8 @@ public class ReviewServiceImplementation implements ReviewService {
     private Company getCompany(Long companyId) throws ResourceUnavailableException {
         try {
             return companyClient.getCompany(companyId);
-        } catch (RestClientException e) {
-            throw new ResourceUnavailableException("There seems to some problem with the Company service.");
+        } catch (FeignException e) {
+            throw new ResourceUnavailableException(e.getMessage());
         }
     }
 

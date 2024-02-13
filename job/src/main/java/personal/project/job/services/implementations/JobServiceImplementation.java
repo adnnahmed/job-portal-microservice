@@ -1,5 +1,6 @@
 package personal.project.job.services.implementations;
 
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,16 +83,16 @@ public class JobServiceImplementation implements JobService {
     private Company getCompany(Long companyId) throws ResourceUnavailableException {
         try {
             return companyClient.getCompany(companyId);
-        } catch (RestClientException e) {
-            throw new ResourceUnavailableException("There seems to some problem with the Company service.");
+        } catch (FeignException e) {
+            throw new ResourceUnavailableException(e.getMessage());
         }
     }
 
     private List<Review> getReviews(Long companyId) throws ResourceUnavailableException {
         try {
             return reviewClient.getReviews(companyId);
-        } catch (RestClientException e) {
-            throw new ResourceUnavailableException("There seems to some problem with the Review service.");
+        } catch (FeignException e) {
+            throw new ResourceUnavailableException(e.getMessage());
         }
     }
 
