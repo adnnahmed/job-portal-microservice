@@ -19,7 +19,6 @@ public class CompanyToJobMapper {
         jobDTO.setMaxSalary(job.getMaxSalary());
         jobDTO.setCompany(company);
         jobDTO.getCompany().setReviews(reviews);
-
         return jobDTO;
     }
 }

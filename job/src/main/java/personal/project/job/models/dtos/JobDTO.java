@@ -3,9 +3,6 @@ package personal.project.job.models.dtos;
 import lombok.Getter;
 import lombok.Setter;
 import personal.project.job.models.external.Company;
-import personal.project.job.models.external.Review;
-
-import java.util.List;
 
 @Getter
 @Setter

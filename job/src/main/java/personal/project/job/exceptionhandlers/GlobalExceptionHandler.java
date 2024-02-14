@@ -1,5 +1,6 @@
 package personal.project.job.exceptionhandlers;
 
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +19,17 @@ public class GlobalExceptionHandler {
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
         CustomException customException = new CustomException(
                 resourceUnavailableException.getMessage(),
+                httpStatus,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+        return new ResponseEntity<>(customException, httpStatus);
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<Object> handleFeignStatusException(FeignException feignException) {
+        HttpStatus httpStatus = HttpStatus.valueOf(feignException.status());
+        CustomException customException = new CustomException(
+                feignException.getMessage(),
                 httpStatus,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );

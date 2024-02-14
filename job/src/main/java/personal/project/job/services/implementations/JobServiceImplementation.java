@@ -1,11 +1,9 @@
 package personal.project.job.services.implementations;
 
-import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import personal.project.job.clients.CompanyClient;
 import personal.project.job.clients.ReviewClient;
 import personal.project.job.exceptions.ResourceUnavailableException;
@@ -57,16 +55,18 @@ public class JobServiceImplementation implements JobService {
 
     @Override
     public ResponseEntity<JobDTO> createJobRequest(Job job) throws ResourceUnavailableException {
-        JobDTO jobDTO = getJobDTO(jobRepository.save(job));
-        return new ResponseEntity<>(jobDTO, HttpStatus.CREATED);
+        if (companyClient.getCompany(job.getCompanyId()).getStatusCode().isError())
+            throw new ResourceUnavailableException("Uh oh! Something went wrong.");
+        return new ResponseEntity<>(getJobDTO(jobRepository.save(job)), HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<JobDTO> replaceJobRequest(Long jobId, Job job) throws ResourceUnavailableException {
         if (jobRepository.existsById(jobId)) {
             job.setId(jobId);
-            JobDTO jobDTO = getJobDTO(jobRepository.save(job));
-            return ResponseEntity.ok(jobDTO);
+            if (companyClient.getCompany(job.getCompanyId()).getStatusCode().isError())
+                throw new ResourceUnavailableException("Uh oh! Something went wrong.");
+            return ResponseEntity.ok(getJobDTO(jobRepository.save(job)));
         }
         throw new ResourceUnavailableException("Job request with ID " + jobId + " is unavailable.");
     }
@@ -80,23 +80,11 @@ public class JobServiceImplementation implements JobService {
         throw new ResourceUnavailableException("Job request with ID " + jobId + " is unavailable.");
     }
 
-    private Company getCompany(Long companyId) throws ResourceUnavailableException {
-        try {
-            return companyClient.getCompany(companyId);
-        } catch (FeignException e) {
-            throw new ResourceUnavailableException(e.getMessage());
-        }
-    }
-
-    private List<Review> getReviews(Long companyId) throws ResourceUnavailableException {
-        try {
-            return reviewClient.getReviews(companyId);
-        } catch (FeignException e) {
-            throw new ResourceUnavailableException(e.getMessage());
-        }
-    }
-
     private JobDTO getJobDTO(Job job) throws ResourceUnavailableException {
-        return CompanyToJobMapper.mapToJobDTO(job, getCompany(job.getCompanyId()), getReviews(job.getCompanyId()));
+        Company company = companyClient.getCompany(job.getCompanyId()).getBody();
+        List<Review> reviews = reviewClient.getReviews(job.getCompanyId()).getBody();
+        if (reviews == null)
+            throw new ResourceUnavailableException("List of Reviews is null");
+        return CompanyToJobMapper.mapToJobDTO(job, company, reviews);
     }
 }

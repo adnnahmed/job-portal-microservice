@@ -1,17 +1,14 @@
 package personal.project.review.services.implementations;
 
-import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import personal.project.review.clients.CompanyClient;
 import personal.project.review.exceptions.ResourceUnavailableException;
 import personal.project.review.mapper.CompanyToReviewMapper;
 import personal.project.review.models.Review;
 import personal.project.review.models.dtos.ReviewDTO;
-import personal.project.review.models.external.Company;
 import personal.project.review.repositories.ReviewRepository;
 import personal.project.review.services.ReviewService;
 
@@ -33,10 +30,9 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     public ResponseEntity<List<ReviewDTO>> getAllReviews(Long companyId) throws ResourceUnavailableException {
+        if (companyClient.getCompany(companyId).getStatusCode().isError())
+            throw new ResourceUnavailableException("Uh oh! Something went wrong.");
         List<Review> reviewsList = reviewRepository.findByCompanyId(companyId);
-        /*if (reviewsList.isEmpty()) {
-            throw new ResourceUnavailableException("No data is available.");
-        }*/
         List<ReviewDTO> reviewDTOList = new ArrayList<>();
         for (Review review : reviewsList)
             reviewDTOList.add(getReviewDTO(review));
@@ -54,18 +50,18 @@ public class ReviewServiceImplementation implements ReviewService {
 
     @Override
     public ResponseEntity<ReviewDTO> createReview(Review review) throws ResourceUnavailableException {
-        ReviewDTO reviewDTO = getReviewDTO(review);
-        reviewRepository.save(review);
-        return new ResponseEntity<>(reviewDTO, HttpStatus.CREATED);
+        if (companyClient.getCompany(review.getCompanyId()).getStatusCode().isError())
+            throw new ResourceUnavailableException("Uh uh! Something went wrong.");
+        return new ResponseEntity<>(getReviewDTO(reviewRepository.save(review)), HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<ReviewDTO> replaceReview(Long reviewId, Review review) throws ResourceUnavailableException {
         if (reviewRepository.existsById(reviewId)) {
             review.setId(reviewId);
-            ReviewDTO reviewDTO = getReviewDTO(review);
-            reviewRepository.save(review);
-            return ResponseEntity.ok(reviewDTO);
+            if (companyClient.getCompany(review.getCompanyId()).getStatusCode().isError())
+                throw new ResourceUnavailableException("Uh uh! Something went wrong.");
+            return ResponseEntity.ok(getReviewDTO(reviewRepository.save(review)));
         }
         throw new ResourceUnavailableException("Review with ID " + reviewId + " is unavailable.");
     }
@@ -89,15 +85,7 @@ public class ReviewServiceImplementation implements ReviewService {
         return ResponseEntity.ok(reviewsList);
     }
 
-    private Company getCompany(Long companyId) throws ResourceUnavailableException {
-        try {
-            return companyClient.getCompany(companyId);
-        } catch (FeignException e) {
-            throw new ResourceUnavailableException(e.getMessage());
-        }
-    }
-
-    private ReviewDTO getReviewDTO(Review review) throws ResourceUnavailableException {
-        return CompanyToReviewMapper.mapToReviewDTO(review, getCompany(review.getCompanyId()));
+    private ReviewDTO getReviewDTO(Review review) {
+        return CompanyToReviewMapper.mapToReviewDTO(review, companyClient.getCompany(review.getCompanyId()).getBody());
     }
 }
