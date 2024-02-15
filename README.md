@@ -71,7 +71,7 @@ The Company Service microservice manages company-related operations, including c
 The Review Service microservice manages reviews and ratings for both jobs and companies. Users or developers can interact with the following endpoints:
   - **GET /reviews?{companyId}**  Retrieve all reviews for a specific company.
   - **GET /reviews/{reviewId}**  Retrieve a specific review by ID.
-  - **POST /reviews/{companyId}**  Submit a review for a company.
+  - **POST /reviews/?{companyId}**  Submit a review for a company.
   - **PUT /reviews/{reviewId}?{companyId}:**  Update a review.
   - **DELETE /reviews/{reviewId}:**  Delete a review by ID.
 
